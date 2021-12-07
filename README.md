@@ -17,6 +17,6 @@ Steps to run the web-application on your local machine:
  4. Run the client using following command in new terminal:
     > npm start
     
- The app will start on http://localhost:4080/ 
+ The app will start on http://localhost:3000/ 
      
    
