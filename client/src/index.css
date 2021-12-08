@@ -1,0 +1,107 @@
+body {
+  background-color: #e6ecf0;
+}
+
+/*Navbar*/
+
+.navbar{
+  margin-bottom: 1rem;
+}
+
+.navbar a{
+    font-weight: bold;
+}
+
+.navbar a:hover{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.navbar-brand> img{
+    display: inline-block;
+    width: 20px;
+    margin-bottom: 2px;
+    margin-right: 5px;
+    border-radius: 2px;
+}
+
+ul.nav.navbar-nav li{
+    margin: 0 0.5rem;
+}
+
+.navbar{
+    background-image: url("./images/nav-bg.png");
+    background-size: 100% 100%;
+}
+
+/*Home Page*/
+
+.home{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top:0;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: -1;
+    background-image: url("./images/signed-out-home.jpg");
+    text-align: center;
+    padding: 1rem;
+    background-size: cover;
+    color: white;
+    text-shadow: 0 0 8px #66757f;
+}
+
+.home h1{
+    font-size: 50px;
+    font-weight: 200;
+    font-family: sans-serif;
+}
+
+.home h4{
+    font-size: 30px;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+/*tweets*/
+
+#tweets .list-group-item{
+    display: flex;
+    align-items: flex-start;
+    padding: 7px 20px 12px;
+    margin: 5px;
+}
+
+#tweets:not(.no-hover) .list-group-item:hover{
+    background-color: #e6ecf0;
+}
+
+
+.timeline-image{
+    border-radius: 10px;
+    height: 50px;
+    width: 50px;
+    margin-right: 30px;
+}
+
+.btn:hover{
+    cursor: pointer;
+}
+
+a.btn.btn-danger,
+a.btn.btn-danger:hover{
+    color: white;
+}
+
+.tweeter{
+    align-self: center;
+}
+
+.add-tweet{
+    margin-bottom: 30px;
+}
