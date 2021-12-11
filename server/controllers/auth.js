@@ -63,13 +63,16 @@ exports.signUp = async function (req, res, next) {
     }
 };
 
-/*
+
 exports.getUsers=async function(req,res,next)
 {
   try {
-    let users=await db.User.find({ 'username': new RegExp(req.searchTerm, 'i'),'email':new RegExp(req.searchTerm,'i') 
-     }
-    return res.status(200), json(users)
+    let users=await db.User.find({ 'username': new RegExp(req.searchTerm, 'i'),
+    'email':new RegExp(req.searchTerm,'i') 
+     }, process.env.SECRET_KEY);
+  
+    return res.status(200).json({
+        users })
 }
 catch(err){
     if (err.code === 11000) {
@@ -80,4 +83,4 @@ catch(err){
             message: err.message
         })
     }
-}; */
+};
