@@ -69,7 +69,7 @@ exports.getUsers=async function(req,res,next)
   try {
     let users=await db.User.find({ 'username': new RegExp(req.searchTerm, 'i'),
     'email':new RegExp(req.searchTerm,'i') }
-   , {email:1,username:1,password:1 });
+   , {email:1,username:1,following:1,followers:1 });
   
     return res.status(200).json({
         users })
@@ -88,22 +88,28 @@ catch(err){
 exports.follow=async function(req,res,next)
 {
     try {
-        let followingUser=await db.User.find({email:req.followingEmail || "goyaldeepanshu0098@gmail.com"});
-        let followedUser=await db.User.find({email:req.followedEmail || "arpit.bhardwaj@gmail.com"});
+        let followingUser=await db.User.find({email:req.followingEmail });
+        let followedUser=await db.User.find({email:req.followedEmail });
+       
+        //if(followingUser.foll)
+        let following = [{
+            email: req.followedEmail 
+          }] ;    
+        //  followingUser.following.push({
+        //   email: req.followedEmail 
+        // })
+       followingUser.following=following;
+        // followedUser.followers.push({
+        //  email: req.followingEmail});
+   
+        
+        await db.User.update({email:req.followingEmail },{$set:followingUser});
+        await db.User.update({email:req.followedEmail},{$set:followedUser});
         console.log(JSON.stringify(followingUser));
         console.log(JSON.stringify(followedUser));
-             
-         followingUser.following.push({
-          email: req.followedEmail 
-        })
-       
-        followedUser.followers.push({
-         email: req.followingEmail});
-
-        await db.User.update({email:req.followingEmail || "goyaldeepanshu0098@gmail.com"},{$set:followingUser});
-        await db.User.update({email:req.followedEmail || "arpit.bhardwaj@gmail.com"},{$set:followedUser});
         return res.status(200).json(
             { "message" :"User follwed succesfully" }
+           
      )
     }
     catch(err){
