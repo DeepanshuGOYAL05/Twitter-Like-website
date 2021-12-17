@@ -66,11 +66,12 @@ exports.signUp = async function (req, res, next) {
 
 exports.getUsers=async function(req,res,next)
 {
+    // console.log("Users"+JSON.stringify(req.body));
   try {
     let users=await db.User.find({ 'username': new RegExp(req.searchTerm, 'i'),
     'email':new RegExp(req.searchTerm,'i') }
    , {email:1,username:1,following:1,followers:1 });
-  
+
     return res.status(200).json({
         users })
 }
@@ -88,9 +89,12 @@ catch(err){
 exports.follow=async function(req,res,next)
 {
     try {
-        let followingUser=await db.User.find({email:req.followingEmail });
-        let followedUser=await db.User.find({email:req.followedEmail });
-       
+        let followingUser=await db.User.find({email:req.body.followingEmail });
+        console.log("Users"+JSON.stringify(req.body));
+        // console.log("csv"+JSON.stringify(res));
+        let followedUser=await db.User.find({email:req.body.followedEmail  });
+        console.log(JSON.stringify(followingUser));
+        console.log(JSON.stringify(followedUser));
         //if(followingUser.foll)
         let following = [{
             email: req.followedEmail 
@@ -105,8 +109,7 @@ exports.follow=async function(req,res,next)
         
         await db.User.update({email:req.followingEmail },{$set:followingUser});
         await db.User.update({email:req.followedEmail},{$set:followedUser});
-        console.log(JSON.stringify(followingUser));
-        console.log(JSON.stringify(followedUser));
+      
         return res.status(200).json(
             { "message" :"User follwed succesfully" }
            

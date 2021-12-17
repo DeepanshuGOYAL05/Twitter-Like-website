@@ -15,7 +15,7 @@ const TweetItem = ({date, profileImgURL, text, username, removeTweet, isOwner}) 
             <div className="tweet-area">
                 <Link to="/">@{username} &nbsp;</Link>
                 <span className="text-muted">
-                    <Moment className="text-muted" format="Do MM YYYY">
+                    <Moment className="text-muted" format="Do MMM, YYYY">
                         {date}
                     </Moment>
                 </span>
