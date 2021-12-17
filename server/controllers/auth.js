@@ -1,7 +1,8 @@
 const db = require("../models");
 const jwt = require("jsonwebtoken");
+const { request } = require("express");
 
-exports.signIn = async function(req, res, next) {
+exports.signIn = async function (req, res, next) {
     // finding a user
     try {
         let user = await db.User.findOne({
@@ -38,7 +39,7 @@ exports.signIn = async function(req, res, next) {
 exports.signUp = async function (req, res, next) {
     try {
         let user = await db.User.create(req.body);
-        let {id, username, profileImgURL} = user;
+        let { id, username, profileImgURL } = user;
         let token = jwt.sign({
             id,
             username,
@@ -64,19 +65,21 @@ exports.signUp = async function (req, res, next) {
 };
 
 
-exports.getUsers=async function(req,res,next)
-{
+exports.getUsers = async function (req, res, next) {
     // console.log("Users"+JSON.stringify(req.body));
-  try {
-    let users=await db.User.find({ 'username': new RegExp(req.searchTerm, 'i'),
-    'email':new RegExp(req.searchTerm,'i') }
-   , {email:1,username:1,following:1,followers:1 });
+    try {
+        let users = await db.User.find({
+            'username': new RegExp(req.searchTerm, 'i'),
+            'email': new RegExp(req.searchTerm, 'i')
+        }
+            , { email: 1, username: 1, following: 1, followers: 1 });
 
-    return res.status(200).json({
-        users })
-}
-catch(err){
-    if (err.code === 11000) {
+        return res.status(200).json({
+            users
+        })
+    }
+    catch (err) {
+        if (err.code === 11000) {
             err.message = "Sorry that username or email is already taken";
         }
         return next({
@@ -86,44 +89,111 @@ catch(err){
     }
 };
 
-exports.follow=async function(req,res,next)
-{
+exports.follow = async function (req, res, next) {
     try {
-        let followingUser=await db.User.find({email:req.body.followingEmail });
-        console.log("Users"+JSON.stringify(req.body));
+        let followingUser = await db.User.find({ email: req.body.followingEmail });
+        // console.log("Users" + JSON.stringify(req.body));
         // console.log("csv"+JSON.stringify(res));
-        let followedUser=await db.User.find({email:req.body.followedEmail  });
-        console.log(JSON.stringify(followingUser));
-        console.log(JSON.stringify(followedUser));
-        //if(followingUser.foll)
-        let following = [{
-            email: req.followedEmail 
-          }] ;    
-        //  followingUser.following.push({
-        //   email: req.followedEmail 
-        // })
-       followingUser.following=following;
-        // followedUser.followers.push({
-        //  email: req.followingEmail});
-   
-        
-        await db.User.update({email:req.followingEmail },{$set:followingUser});
-        await db.User.update({email:req.followedEmail},{$set:followedUser});
-      
-        return res.status(200).json(
-            { "message" :"User follwed succesfully" }
-           
-     )
-    }
-    catch(err){
-        if (err.code === 11000) {
-                err.message = "Sorry that username or email is already taken";
-            }
-            return next({
-                status: 400,
-                message: err.message
-            })
+        let followedUser = await db.User.find({ email: req.body.followedEmail });
 
+        let followingUserObj = { email: req.body.followedEmail };
+        let followedUserObj = {email: req.body.followingEmail};
+       
+   
+        let alreadyFollowed = false;
+
+        followingUser[0].followers.forEach(followers => {
+            if (followers.email == req.body.followedEmail) {
+                alreadyFollowed = true;
+                // return;
+            }
+        });
+
+        if (alreadyFollowed) {
+            // return res.status(500).json(
+            //     { "message": "ALready followerd" }
+            // );
+            console.log("message: ALready followed");
+        
+            break; 
+        }
+ 
+        else {
+            console.log("*************************************")
+
+            await db.User.findOneAndUpdate(
+                { email: req.body.followingEmail },
+                { $push: { followers: followingUserObj } },
+                null,
+                function (err, docs) {
+                    console.log("----Update docs----" + docs)
+                    if (err) {
+                        console.log(err)
+                        // return res.status(500).json(
+                        //     { "message": "ISE" }
+                        // );
+
+                    } else {
+
+                        // return res.status(200).json(
+                        //     { "message": "User successfully followed" }
+                        // );
+                    }
+                }
+            )
         }
 
+        let alreadyFollowing = false;
+
+        followedUser[0].followers.forEach(followers => {
+            if (followers.email == req.body.followingEmail) {
+                alreadyFollowing = true;
+                // return;
+            }
+        });
+
+        if (alreadyFollowing) {
+            // return res.status(500).json(
+            //     { "message": "ALready following" }
+            // );
+        } else {
+            console.log("///////////*")
+
+            await db.User.findOneAndUpdate(
+                { email: req.body.followedEmail },
+                { $push: { followers: followedUserObj } },
+                null,
+                function (err, doc) {
+                    console.log("----Update docs----" + doc)
+                    if (err) {
+                        // console.log(err)
+                        // return res.status(500).json(
+                        //     { "message": "ISE" }
+                        // );
+
+                    } else {
+
+                        // return res.status(200).json(
+                        //     { "message": "User successfully following" }
+                        // );
+                    }
+                }
+            )
+        
+
+    }
+
+  
+}
+    catch (err) {
+        if (err.code === 11000) {
+            err.message = "Sorry that username or email is already taken";
+        }
+        return next({
+            status: 400,
+            message: err.message
+        })
+
+    }
+    
 };
