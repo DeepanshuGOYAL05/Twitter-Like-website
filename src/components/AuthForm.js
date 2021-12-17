@@ -33,7 +33,8 @@ export default class AuthForm extends Component{
     render(){
         const {email, username, password, profileImgURL}= this.state;
         const {heading, buttonText, signUp, errors, history, removeError}= this.props;
-
+     
+       
         history.listen(()=> {
             removeError();
         });
@@ -79,7 +80,9 @@ export default class AuthForm extends Component{
                                     name="profileImgURL"
                                     onChange={this.handleChange}
                                     value={profileImgURL}
-                                    type="text"/>
+                                    type="file"/>
+                               
+
                                 <br/>
                             </div>
                         )}
