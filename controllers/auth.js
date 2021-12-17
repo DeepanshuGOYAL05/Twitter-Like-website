@@ -110,10 +110,10 @@ exports.follow = async function (req, res, next) {
         });
 
         if (alreadyFollowed) {
-            // return res.status(500).json(
-            //     { "message": "ALready followerd" }
-            // );
-            console.log("message: ALready followed");
+            return res.status(500).json(
+                { "message": "ALready followerd" }
+             );
+            //onsole.log("message: ALready followed");
         
            
         }
@@ -135,9 +135,9 @@ exports.follow = async function (req, res, next) {
 
                     } else {
 
-                        // return res.status(200).json(
-                        //     { "message": "User successfully followed" }
-                        // );
+                         return res.status(200).json(
+                             { "message": "User successfully followed" }
+                         );
                     }
                 }
             )
