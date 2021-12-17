@@ -105,7 +105,7 @@ exports.follow = async function (req, res, next) {
         followingUser[0].followers.forEach(followers => {
             if (followers.email == req.body.followedEmail) {
                 alreadyFollowed = true;
-                // return;
+                return;
             }
         });
 
@@ -115,7 +115,7 @@ exports.follow = async function (req, res, next) {
             // );
             console.log("message: ALready followed");
         
-            break; 
+           
         }
  
         else {
@@ -129,9 +129,9 @@ exports.follow = async function (req, res, next) {
                     console.log("----Update docs----" + docs)
                     if (err) {
                         console.log(err)
-                        // return res.status(500).json(
-                        //     { "message": "ISE" }
-                        // );
+                         return res.status(500).json(
+                             { "message": "ISE" }
+                         );
 
                     } else {
 
