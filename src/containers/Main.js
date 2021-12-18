@@ -7,6 +7,7 @@ import {authUser} from "../store/actions/auth";
 import { removeError } from "../store/actions/errors";
 import withAuth from "../hocs/withAuth";
 import TweetForm from "./TweetForm";
+import UsersList from "../components/UsersList";
 
 const Main= props => {
     const {authUser, errors, removeError, currentUser }= props;
@@ -25,6 +26,9 @@ const Main= props => {
                     )
                 }}/>
                 <Route exact path="/users/:id/tweets/new" component={withAuth(TweetForm)}/>
+                <Route exact path="/search">
+                    <UsersList />
+                </Route>
             </Switch>
         </div>
     )
