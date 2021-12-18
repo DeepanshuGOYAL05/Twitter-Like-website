@@ -1,4 +1,5 @@
 require("dotenv").config();
+const {connectDB} = require("./models/index")
 const express= require("express"),
     app= express(),
     cors= require("cors"),
@@ -9,6 +10,7 @@ const errorHandler= require("./controllers/error");
 // Routes
 const routes= require("./routes");
 
+connectDB();
 
 const PORT= 8081;
 
@@ -23,6 +25,7 @@ app.use(function (req,res,next) {
     err.status= 404;
     next(err);
 });
+
 
 // error handler
 app.use(errorHandler);
