@@ -8,7 +8,7 @@ exports.signIn = async function (req, res, next) {
     let user = await db.User.findOne({
       email: req.body.email,
     });
-    let { id, username, profileImageUrl } = user;
+    let { id, username, profileImageUrl, email, followers, following } = user;
     let isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
       let token = jwt.sign(
@@ -16,6 +16,7 @@ exports.signIn = async function (req, res, next) {
           id,
           username,
           profileImageUrl,
+          email,
         },
         process.env.SECRET_KEY
       );
@@ -23,7 +24,10 @@ exports.signIn = async function (req, res, next) {
         id,
         username,
         profileImageUrl,
+        email,
         token,
+        followers,
+        following,
       });
     } else {
       return next({
@@ -39,12 +43,13 @@ exports.signIn = async function (req, res, next) {
 exports.signUp = async function (req, res, next) {
   try {
     let user = await db.User.create(req.body);
-    let { id, username, profileImgURL } = user;
+    let { id, username, profileImgURL, email } = user;
     let token = jwt.sign(
       {
         id,
         username,
         profileImgURL,
+        email,
       },
       process.env.SECRET_KEY
     );
@@ -54,6 +59,7 @@ exports.signUp = async function (req, res, next) {
       username,
       profileImgURL,
       token,
+      email,
     });
   } catch (err) {
     if (err.code === 11000) {
@@ -93,6 +99,9 @@ exports.getUsers = async function (req, res, next) {
 
 exports.follow = async function (req, res, next) {
   try {
+    console.log(req.body, "----------------------->1");
+    // req.body = JSON.parse(req.body)
+    console.log(req.body, "-------------------->2");
     let followingUser = await db.User.find({ email: req.body.followingEmail });
     let followedUser = await db.User.find({ email: req.body.followedEmail });
 
@@ -104,12 +113,10 @@ exports.follow = async function (req, res, next) {
     followingUser[0].followers.forEach((followers) => {
       if (followers.email == req.body.followedEmail) {
         alreadyFollowed = true;
-        
       }
     });
 
     if (alreadyFollowed) {
- 
       console.log("message: ALready followed");
     } else {
       console.log("Not Following");
@@ -119,13 +126,11 @@ exports.follow = async function (req, res, next) {
         { $push: { followers: followingUserObj } },
         null,
         function (err, docs) {
-        //   console.log("----Update docs----" + docs);
+          //   console.log("----Update docs----" + docs);
           if (err) {
             console.log(err);
-       
           } else {
             console.log(err);
-        
           }
         }
       );
@@ -150,13 +155,14 @@ exports.follow = async function (req, res, next) {
         { $push: { following: followedUserObj } },
         null,
         function (error, doc) {
-    
           if (error) {
-            console.log(err);
+            console.log(error);
             return res.status(500).json({ message: "ISE" });
           } else {
-            console.log(err);
-            return res.status(200).json({ message: "User successfully following" });
+            console.log(error);
+            return res
+              .status(200)
+              .json({ message: "User successfully following" });
           }
         }
       );

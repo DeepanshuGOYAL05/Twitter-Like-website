@@ -28,7 +28,10 @@ export const deleteTweet= (user_id, tweet_id) => {
 export const fetchTweets= ()=> {
     return dispatch=> {
         return apiCall("get", "/api/tweets")
-            .then((res)=> (dispatch(loadTweets(res))))
+            .then(async (res)=> {
+                const tweets = await res.json() 
+                dispatch(loadTweets(tweets))
+            })
             .catch(err=> addError(err))
     }
 };

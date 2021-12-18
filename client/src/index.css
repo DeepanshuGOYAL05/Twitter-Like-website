@@ -105,3 +105,14 @@ a.btn.btn-danger:hover{
 .add-tweet{
     margin-bottom: 30px;
 }
+
+.user-list {
+    width: 70%;
+    text-align: center;
+}
+
+.user-show {
+    padding: 20px;
+    border: 1px solid black;
+    text-align: left;
+}
