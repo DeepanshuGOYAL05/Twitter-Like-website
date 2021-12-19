@@ -15,7 +15,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
- "proxy": "https://twitter-web-app-05.herokuapp.com",
+ //"proxy": "https://twitter-web-app-05.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
