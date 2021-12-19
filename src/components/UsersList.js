@@ -63,7 +63,6 @@ const UsersList = () => {
               <div className="card-body">
                 <h5 className="card-title">{user.username}</h5>
                 <p className="card-text">{user.email}</p>
-                <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
                 {!checkForUser.bind(null, user)() && <button type="button" onClick={followAUser.bind(null, user)} className="btn btn-secondary">Follow</button>}
               </div>
             </div>
