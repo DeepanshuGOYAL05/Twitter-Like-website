@@ -19,8 +19,6 @@
   },
   "homepage": "https://github.com/DeepanshuGOYAL05/Twitter-Like-website#readme",
   "dependencies": {
-    
     "dotenv": "^5.0.1"
-   
   }
 }
