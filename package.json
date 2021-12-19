@@ -1,0 +1,21 @@
+{
+  "name": "twitter-like-website",
+  "version": "1.0.0",
+  "description": "Steps to run the web-application on your local machine:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  ,"start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeepanshuGOYAL05/Twitter-Like-website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DeepanshuGOYAL05/Twitter-Like-website/issues"
+  },
+  "homepage": "https://github.com/DeepanshuGOYAL05/Twitter-Like-website#readme"
+}
