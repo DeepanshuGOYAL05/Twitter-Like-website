@@ -17,6 +17,8 @@ exports.signIn = async function (req, res, next) {
           username,
           profileImageUrl,
           email,
+          following,
+          followers
         },
         process.env.SECRET_KEY
       );
@@ -80,7 +82,7 @@ exports.getUsers = async function (req, res, next) {
         username: new RegExp(req.searchTerm, "i"),
         email: new RegExp(req.searchTerm, "i"),
       },
-      { email: 1, username: 1, following: 1, followers: 1 }
+      { email: 1, username: 1,profileImageUrl:1, following: 1, followers: 1 }
     );
 
     return res.status(200).json({
@@ -177,3 +179,9 @@ exports.follow = async function (req, res, next) {
     });
   }
 };
+
+
+exports.userData = async function (req, res, next) {
+  try {}
+  catch{}
+}
