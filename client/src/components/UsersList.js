@@ -10,7 +10,7 @@ const UsersList = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     if (queryParams) {
-      fetch("api/auth/users", {
+      fetch("/api/auth/users", {
         headers: {
           searchTerm: queryParams,
         },
@@ -28,10 +28,10 @@ const UsersList = () => {
       "followedEmail": currentUser.user.email
     }
     console.log(payload)
-    apiCall("POST", "api/auth/follow", payload).then( async (res) => {
+    apiCall("POST", "/api/auth/follow", payload).then( async (res) => {
       const response = await res.json();
       console.log(response)
-      fetch("api/auth/users", {
+      fetch("/api/auth/users", {
         headers: {
           searchTerm: queryParams,
         },
