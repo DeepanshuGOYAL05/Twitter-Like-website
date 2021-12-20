@@ -11,12 +11,13 @@ class TweetList extends Component {
 
     render() {
         const {tweets, deleteTweet, currentUser} = this.props;
+        console.log("JSON: " + JSON.stringify(tweets))
         let tweetList = tweets.map(t => (
             <TweetItem
                 key={t._id}
                 date={t.createdAt}
                 text={t.text}
-                username={t.user.username}
+                username={(t.user !=null) ? t.user.username : ""} 
                 profileImgURL={t.user.profileImgURL}
                 removeTweet={deleteTweet.bind(this, t.user._id ,t._id)}
                 isOwner={currentUser === t.user._id}
